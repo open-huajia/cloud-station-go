@@ -7,6 +7,12 @@ import (
 	"github.com/open-huajia/cloud-station-go/store/qingcloud"
 	"github.com/open-huajia/cloud-station-go/store/tx"
 	"github.com/spf13/cobra"
+	"os"
+)
+
+var (
+	default_ak = os.Getenv("ALI_ACESS_KEY")
+	default_sk = os.Getenv("ALI_SECRET_KEY")
 )
 
 var (
@@ -17,6 +23,15 @@ var (
 	bucketName   string
 	uploadFile   string
 )
+
+func setAliDefault(opts *aliyun.Options) {
+	if opts.AccessKey == "" {
+		opts.AccessKey = default_ak
+	}
+	if opts.AccessSecret == "" {
+		opts.AccessSecret = default_sk
+	}
+}
 
 var UploadCmd = &cobra.Command{
 	Use:     "upload",
@@ -34,6 +49,7 @@ var UploadCmd = &cobra.Command{
 				AccessKey:    accessKey,
 				AccessSecret: accessSecret,
 			}
+			setAliDefault(aliOpts)
 			uploader, err = aliyun.NewAliOssStore(aliOpts)
 
 		case "tx":
