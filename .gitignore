@@ -7,6 +7,7 @@
 *.vscode
 *.idea
 *example
+*refs
 
 # Test binary, built with `go test -c`
 *.test
